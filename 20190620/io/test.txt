@@ -1,0 +1,75 @@
+ ///
+ /// @file    io2.cc
+ /// @author  lemon(haohb13@gmail.com)
+ /// @date    2019-06-20 11:44:50
+ ///
+ 
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+using std::cout;
+using std::endl;
+using std::ifstream;
+using std::ofstream;
+using std::string;
+using std::vector;
+
+vector<string> file;
+
+void test1()
+{
+	//ifstream要求文件必须存在
+	//ifstream ifs("test.txt");
+	ifstream ifs("io2.cc");
+	if(!ifs.good()) {
+		cout << "ifstream open file error!" << endl;
+		return;
+	}
+
+	file.reserve(100);
+	string line;
+	//while(ifs >> str) {
+	while(std::getline(ifs, line)) {
+		file.push_back(line);
+	}
+
+	//auto 自动推导元素的类型
+#if 0
+	for(auto & line : file)
+	{
+		cout << line << endl;
+	}
+#endif
+	
+	ifs.close();
+}
+
+void test2()
+{
+	string filename = "test.txt";
+	ofstream ofs(filename);
+	if(!ofs.good()) {
+		cout << ">> ofstream open error!" << endl;
+		return ;
+	}
+
+	for(auto & line : file)
+	{
+		ofs << line << "\n";
+	}
+	ofs.close();
+}
+
+
+ 
+int main(void)
+{
+	test1();
+	test2();
+	return 0;
+}
+that's a new line
+that's a new line
+that's a new line
+that's a new line
