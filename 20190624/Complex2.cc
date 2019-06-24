@@ -32,7 +32,27 @@ public:
 		return *this;
 	}
 
+	//前置++ 的效率高于后置++的
+	//前置返回的是引用
+	Complex & operator++()
+	{
+		++_dreal;
+		++_dimag;
+		return *this;
+	}
+
+	//后置++
+	//后置返回的是对象
+	Complex operator++(int)// int 只是作为一个标识位存在，不需要传递参数
+	{
+		Complex tmp(*this);
+		++_dreal;
+		++_dimag;
+		return tmp;
+	}
+
 	friend Complex operator+(const Complex & lhs, const Complex & rhs);
+	friend bool operator<(const Complex & lhs, const Complex & rhs);
 
 private:
 	double _dreal; // i^2 = -1  欧拉公式
@@ -46,13 +66,22 @@ Complex operator+(const Complex & lhs, const Complex & rhs)
 	return Complex(lhs._dreal + rhs._dreal,
 				   lhs._dimag + rhs._dimag);
 }
+
+bool operator<(const Complex & lhs, const Complex & rhs)
+{
+	return lhs._dreal < rhs._dreal;
+}
  
 int main(void)
 {
 	int a = 3, b = 4;
 	int c = a + b;
 
-	a += b;// a = a + b
+	//a += b;// a = a + b
+
+	&(++a); //4   4
+
+	(a++);  //4   5
 
 	Complex c1(1, 2);
 	cout << "c1 = ";
@@ -66,6 +95,13 @@ int main(void)
 
 	c1 += c2;// 推荐以成员函数形式重载
 	cout << "c1 = ";
+	c1.print();
+
+	cout << endl << "C1执行自增运算符：" << endl;
+	(++c1).print();
+	c1.print();
+
+	(c1++).print();
 	c1.print();
  
 	return 0;

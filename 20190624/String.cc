@@ -46,6 +46,17 @@ public:
 		return *this;
 	}
 
+	char & operator[](int idx)
+	{
+		if(idx >= 0 || idx < strlen(_pstr)) {
+			return _pstr[idx];
+		} else {
+			cout << " idx 越界!" << endl;
+			static char nullchar = '\0';
+			return nullchar;
+		}
+	}
+
 	void print() const
 	{
 		if(_pstr)
@@ -58,6 +69,9 @@ public:
 			delete [] _pstr;
 		cout << "~String()" << endl;
 	}
+
+	int	size()const 
+	{	return strlen(_pstr);}
 
 private:
 	char * _pstr;
@@ -88,6 +102,12 @@ int main(void)
 	cout << "p = " << p << endl;
 	cout << "222" << endl;
 #endif
+
+	cout << "下标访问运算符" << endl;
+	for(int idx = 0; idx != s4.size(); ++idx) 
+	{
+		cout << s4[idx] << endl;
+	}
 
 	return 0;
 }
