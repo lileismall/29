@@ -9,6 +9,14 @@
 using std::cout;
 using std::endl;
 
+class Point;//类的前向声明
+
+class Line
+{
+public:
+	float distance(const Point & lhs, const Point & rhs);
+};
+
 class Point
 {
 public:
@@ -26,16 +34,15 @@ public:
 			 << ")" ;
 	}
 	
-	//友元函数之普通函数
-	friend float distance(const Point & lhs, const Point & rhs);
-	
+	//友元函数之成员函数
+	friend float Line::distance(const Point & lhs, const Point & rhs);
 
 private:
 	int _ix;
 	int _iy;
 };
 
-float distance(const Point & lhs, const Point & rhs)
+float Line::distance(const Point & lhs, const Point & rhs)
 {
 	return sqrt((lhs._ix - rhs._ix) * (lhs._ix - rhs._ix) + 
 				(lhs._iy - rhs._iy) * (lhs._iy - rhs._iy));
@@ -48,7 +55,9 @@ int main(void)
 	pt1.print();
 	cout << " ---> ";
 	pt2.print();
-	cout << "的距离是:" << distance(pt1, pt2) << endl;
+	cout << "的距离是:" << Line().distance(pt1, pt2) << endl;//匿名对象, 临时对象
+	Line line;
+	cout << "的距离是:" << line.distance(pt1, pt2) << endl;//有名对象
 
 	return 0;
 }
