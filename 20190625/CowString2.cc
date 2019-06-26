@@ -22,8 +22,9 @@ class CowString
 		{}
 
 		char & operator=(const char & ch);
+		operator char()
+		{	return _self._pstr[_idx];	}
 	
-		friend std::ostream & operator<<(std::ostream & os, const CharProxy & rhs);
 	private:
 		CowString & _self;
 		int _idx;
@@ -81,7 +82,6 @@ public:
 	{	return _pstr[idx];	}
 
 	friend std::ostream & operator<<(std::ostream & os, const CowString & rhs);
-	friend std::ostream & operator<<(std::ostream & os, const CharProxy & rhs);
 
 private:
 	void initRefcount() 
@@ -137,12 +137,6 @@ char & CowString::CharProxy::operator=(const char & ch)
 		cout << "下标越界!" << endl;
 		return nullchar;
 	}
-}
-
-std::ostream & operator<<(std::ostream & os, const CowString::CharProxy & rhs)
-{
-	os << rhs._self._pstr[rhs._idx];
-	return os;
 }
 
 #if 0

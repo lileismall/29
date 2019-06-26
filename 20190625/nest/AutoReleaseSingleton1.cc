@@ -54,18 +54,32 @@ private:
 private:
 	static Singleton * _pInstance;
 	static AutoRelease _autoRelease;
+	int _data;
+	//double _data2;
 };
 
 //Singleton * Singleton::_pInstance = nullptr;//懒（饿）汉模式(懒加载) 
 //解决多线程安全的问题
 Singleton * Singleton::_pInstance = getInstance();//饱汉模式
 
-Singleton::AutoRelease Singleton::_autoRelease;
- 
+Singleton::AutoRelease Singleton::_autoRelease{};//C++11
+
+class Example
+{
+public:
+	Example()
+	{	cout << "Example()" << endl;	}
+};
+
 int main(void)
 {
+	Example e();//函数的声明
+
+	cout << "sizeof(Singleton) = "  << sizeof(Singleton) << endl;
 	Singleton* p1 = Singleton::getInstance();
 	p1->print();
+
+	cout << "sizeof(*p1) = " << sizeof(*p1) << endl;
 
 	//Singleton::destroy();
 	return 0;
