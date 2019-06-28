@@ -62,7 +62,7 @@ private:
 //解决多线程安全的问题
 Singleton * Singleton::_pInstance = getInstance();//饱汉模式
 
-Singleton::AutoRelease Singleton::_autoRelease{};//C++11
+//Singleton::AutoRelease Singleton::_autoRelease{};//C++11
 
 class Example
 {
