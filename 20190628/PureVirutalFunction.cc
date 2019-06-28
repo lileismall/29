@@ -21,6 +21,9 @@ public:
 	virtual void display()=0;
 
 	virtual void print()=0;
+
+	virtual
+	~A() { cout << "~A()" << endl;	}
 };
 
 class B
@@ -30,6 +33,8 @@ class B
 public:
 	void display()
 	{	cout << "B::display()" << endl;	}
+
+	~B() {	cout << "~B()" << endl;	}
 };
 
 class C
@@ -38,6 +43,9 @@ class C
 public:
 	void print()
 	{	cout << "C::print()" << endl;	}
+
+	~C()
+	{	cout << "~C()" << endl;	}
 };
 
 void display(A * pa)
@@ -52,10 +60,18 @@ int main(void)
 	//A * pa = &b;
 	//pa->display();
 	
+#if 0
 	C c;
 	A * pa = &c;
 	pa->display();
 	pa->print();
+#endif
+
+	A * pa2 = new C();
+	pa2->display();
+	pa2->print();
+
+	delete pa2;
  
 	return 0;
 }
