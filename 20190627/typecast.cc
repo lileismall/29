@@ -65,7 +65,15 @@ int main(void)
 	Base * pbase = &derived;
 	pbase->display();
 
+	//向下转型是OK的
+	Derived * pderived = (Derived *)pbase;
+	pderived->display();
+
 	//Derived * pderived = &base;//error
+	
+	Base * pbase2 = &base;
+	Derived * pderived2 = (Derived *)pbase2;//向下转型是有问题的
+	pderived2->display();//产生的是运行时错误,  
 
 
 
