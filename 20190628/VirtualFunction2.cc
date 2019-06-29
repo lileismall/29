@@ -38,7 +38,7 @@ public:
 
 	
 	virtual
-	void display() const
+	void display() const override
 	{
 		cout << ">> _child1 = " << _child1 << endl;
 	}
