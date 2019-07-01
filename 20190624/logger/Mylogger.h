@@ -21,6 +21,12 @@ public:
 	static void destroy();
 
 	void error(const char * msg);
+	template <class... Args>
+	void error(Args... args)
+	{
+		_root.error(args...);
+	}
+
 	void warn(const char * msg);
 	void info(const char * msg);
 	void debug(const char * msg);
@@ -41,7 +47,7 @@ private:
 		.append(":").append(std::to_string(__LINE__))\
 		.append("] ").append(msg).c_str()
 	
-#define LogError(msg) wd::Mylogger::getInstance()->error(prefix(msg))
+#define LogError(msg, ...) wd::Mylogger::getInstance()->error(prefix(msg), ##__VA_ARGS__)
 #define LogWarn(msg) wd::Mylogger::getInstance()->warn(prefix(msg))
 #define LogInfo(msg) wd::Mylogger::getInstance()->info(prefix(msg))
 #define LogDebug(msg) wd::Mylogger::getInstance()->debug(prefix(msg))

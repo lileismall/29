@@ -40,8 +40,7 @@ void test2()
 void test3()
 {
 	int number = 1;
-	LogError("error message %d", number);
-	LogError("error message2");
+	//LogError("error message %d", number);
 
 	LogWarn("warn message");
 	LogInfo("info message");
@@ -50,10 +49,10 @@ void test3()
 
 int main(void)
 {
-	//test0();
+	test0();
 	//test1();
 	//test2();
-	test3();
+	//test3();
 
 	wd::Mylogger::getInstance()->destroy();
 	return 0;
