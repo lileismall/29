@@ -129,6 +129,10 @@ void test2()
 		cout << "set添加元素失败!" << endl;
 		cout << *ret.first << endl;
 	}
+
+	auto it3 = numbers.end();
+	--it3;
+
 }
 
 class Point
