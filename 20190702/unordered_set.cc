@@ -74,7 +74,6 @@ std::ostream & operator<<(std::ostream & os, const Point & rhs)
 
 namespace std
 {
-
 template <>
 struct hash<Point>
 {
@@ -86,6 +85,15 @@ struct hash<Point>
 };
 
 }//end of namespace std
+
+struct PointHasher
+{
+	size_t operator()(const Point & point) const
+	{
+		return  (point.getX() * point.getX()- 1) ^ 
+				(point.getY() * point.getY()- 1);
+	}
+};
 
 bool operator==(const Point & lhs, const Point & rhs)
 {
@@ -100,7 +108,8 @@ void test1()
 	//
 	//hash表， 填充因子  0.5  rehash
 	//
-	unordered_set<Point> points{
+	//unordered_set<Point> points{
+	unordered_set<Point, PointHasher> points{
 		Point(1, 2),
 		Point(3, 4),
 		Point(5, 6),

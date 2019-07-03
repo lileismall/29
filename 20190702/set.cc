@@ -133,6 +133,8 @@ void test2()
 	auto it3 = numbers.end();
 	--it3;
 
+	//it3 + 1;//error
+
 }
 
 class Point
