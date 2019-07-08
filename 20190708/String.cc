@@ -142,8 +142,25 @@ void test1()
 	vec.push_back(std::move(s2));
 }
 
+
+String getString()
+{	
+	String s("wangdao");//s是局部对象,马上就要被销毁 ,
+					    //类中定义了具有移动语义函数,
+					    //函数返回值是对象,此时return会
+	return s;			//调用移动构造函数, 不会调用复制构造函数
+}
+
+
+
+void test2()
+{
+	getString();
+}
+
 int main(void)
 {
-	test1();
+	//test1();
+	test2();
 	return 0;
 }
