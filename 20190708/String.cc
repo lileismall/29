@@ -142,6 +142,7 @@ void test1()
 	vec.push_back(std::move(s2));
 }
 
+String s1("hello");
 
 String getString()
 {	
@@ -149,6 +150,8 @@ String getString()
 					    //类中定义了具有移动语义函数,
 					    //函数返回值是对象,此时return会
 	return s;			//调用移动构造函数, 不会调用复制构造函数
+
+	//return s1;//
 }
 
 
