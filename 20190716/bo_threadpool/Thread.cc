@@ -24,24 +24,21 @@ void * Thread::threadfunc(void * arg)
 {
 	Thread * pthread = static_cast<Thread*>(arg);
 	if(pthread)
-		pthread->run();	
+		pthread->_cb();	
 
 	return nullptr;
 }
 
 void Thread::join()
 {
-	if(_isRunning) {
+	if(_isRunning)
 		pthread_join(_pthid, nullptr);
-		_isRunning = false;
-	}
 }
 
 Thread::~Thread()
 {
-	if(_isRunning) {
+	if(_isRunning) 
 		pthread_detach(_pthid);
-	}
 }
 
 }//end of namespace wd

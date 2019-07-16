@@ -83,6 +83,7 @@ int main(void)
 	producer2->join();
 	consumer1->join();
 	consumer2->join();
+	//子线程在运行过程中，主线程不能退出
 
 	return 0;
 }
