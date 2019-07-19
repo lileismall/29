@@ -1,14 +1,14 @@
  ///
- /// @file    Timerfd.cc
+ /// @file    Eventfd.cc
  /// @author  lemon(haohb13@gmail.com)
  /// @date    2019-07-19 10:21:40
  ///
  
-#include "Timerfd.h"
+#include "Eventfd.h"
 
 #include <unistd.h>
 #include <poll.h>
-#include <sys/timerfd.h>
+#include <sys/eventfd.h>
 
 #include <iostream>
 using std::cout;
@@ -17,23 +17,19 @@ using std::endl;
 namespace wd
 {
 
-Timerfd::Timerfd(int initialTime, int intervalTime, TimerCallback && cb)
-: _fd(createTimerfd())
-, _initialTime(initialTime)
-, _intervalTime(intervalTime)
+Eventfd::Eventfd(EventCallback && cb)
+: _fd(createEventfd())
 , _cb(std::move(cb))
 , _isStarted(false)
 {}
 
-void Timerfd::start()
+void Eventfd::start()
 {
 	_isStarted = true;
 
 	struct pollfd pfd;
 	pfd.fd = _fd;
 	pfd.events = POLLIN;
-
-	setTimerfd(_initialTime, _intervalTime);
 
 	while(_isStarted) {
 		int nready = ::poll(&pfd, 1, 5000);	
@@ -53,39 +49,33 @@ void Timerfd::start()
 	}
 }
 
-void Timerfd::stop()
+void Eventfd::stop()
 {
 	if(_isStarted) {
 		_isStarted = false;
-		setTimerfd(0, 0);
 	}
 }
 
-int Timerfd::createTimerfd()
+void Eventfd::wakeup()
 {
-	int fd = ::timerfd_create(CLOCK_REALTIME, 0);
+	uint64_t one = 1;
+	int ret = ::write(_fd, &one, sizeof(one));
+	if(ret != sizeof(one)) {
+		perror(">> write");
+	}
+}
+
+int Eventfd::createEventfd()
+{
+	int fd = ::eventfd(10, 0);
 	if(fd == -1) {
-		perror(">> timerfd_create");
+		perror(">> eventfd");
 	}
 	return fd;
 }
-	
-void Timerfd::setTimerfd(int initialTime, int intervalTime)
-{
-	struct itimerspec value;
-	value.it_value.tv_sec = initialTime;
-	value.it_value.tv_nsec = 0;
-	value.it_interval.tv_sec = intervalTime;
-	value.it_interval.tv_nsec = 0;
-
-	int ret = ::timerfd_settime(_fd, 0, &value, nullptr);
-	if(ret == -1) {
-		perror(">> timerfd_settime");
-	}
-}
 
 
-void Timerfd::handleRead()
+void Eventfd::handleRead()
 {
 	uint64_t howmany;
 	int ret = ::read(_fd, &howmany, sizeof(uint64_t));
