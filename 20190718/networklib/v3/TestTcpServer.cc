@@ -31,10 +31,10 @@ public:
 		//compute
 		//encode
 		string response = _msg;//要返回给客户端的消息
-		//_conn->send(response);//由线程池的线程(计算线程)完成数据的发送,在设计上来说，是不合理的
+		_conn->send(response);//由线程池的线程(计算线程)完成数据的发送,在设计上来说，是不合理的
 							  //数据发送的工作要交还给IO线程(Reactor所在的线程)完成
 							  //将send的函数的执行延迟到IO线程取操作
-		_conn->sendInLoop(response);
+		//_conn->sendInLoop(response);
 	}
 private:
 	string _msg;
